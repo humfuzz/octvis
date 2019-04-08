@@ -1,0 +1,10 @@
+Here is my recipe for banana bread. Makes one delicious loaf.
+2 bananas
+1 cup sugar
+1 egg, beaten
+1 cup flour
+
+1. Preheat oven to 350°F.
+2. Mash bananas and add egg, sugar, and flour
+3. Pour batter into loaf pan. Bake for 1h.
+4. Remove from oven and serve.

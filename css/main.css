@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Lato', sans-serif;
+}
+
+#bg {
+  fill: #eee;
+}
+
+.nodes circle {
+  r: 10;
+}
+
+#controls rect {
+  fill: #d8d8d8;
+  stroke: black;
+  opacity: 0.6;
+}
+
+#doctext rect {
+  fill: #f5e8cf;
+}
+
+#doctext .fo {
+  overflow: auto;
+  padding: 20px 20px 20px 25px;
+  font-size: 24px;
+  line-height: 1.5em;
+  /* TODO: add custom scrollbar in case invisible: https://codepen.io/GhostRider/pen/GHaFw */
+  /* works fine by default on win chrome, invisible on mac chrome */
+}
+
+text.center {
+  alignment-baseline: middle;
+  text-anchor: middle;
+}
+
+#doctext .fo .A-10.B-0 {
+  font-weight: bold;
+  color: #a81a2d;
+}
+
+#doctext .fo .A-0.B-10 {
+  font-weight: bold;
+  color: #184dc0;
+}
+
+#doctext .fo .A-10.B-10 {
+  font-weight: bold;
+  color: #0ebb34;
+}
+
+.heatmap .cell text {
+  pointer-events: none;
+}
+
+.heatmap .highlight {
+  pointer-events: all;
+  fill: none;
+  /* stroke: rgb(3, 75, 231) */
+}
+
+.ontology.node rect {
+  fill: #ffdac2;
+  stroke: #642b08;
+}
+
+.ontology.node text {
+  fill: #642b08;
+}
+
+.notouch {
+  pointer-events: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+/*# sourceMappingURL=main.css.map */

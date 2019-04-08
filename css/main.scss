@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-family: 'Lato', sans-serif;
+}
+
+#bg {
+    fill: #eee;
+}
+
+.nodes circle {
+    r: 10;
+}
+
+#controls rect {
+    fill: rgb(216, 216, 216);
+    stroke: black;
+    opacity: 0.6;
+}
+
+#doctext rect {
+    fill: rgb(245, 232, 207);
+}
+
+#doctext .fo {
+    overflow: auto;
+    padding: 20px 20px 20px 25px;
+    font-size: 24px;
+    line-height: 1.5em;
+    /* TODO: add custom scrollbar in case invisible: https://codepen.io/GhostRider/pen/GHaFw */
+    /* works fine by default on win chrome, invisible on mac chrome */
+}
+
+// TODO: some incompatibility with overflow in firefox, works ok in chrome
+// #doctext .fo div {
+//     overflow: auto;
+// }
+
+// // OLD 0-10 mixing colors
+// $color-A: #cf080f;
+// $color-B: #081feb;
+// $color-mid: #5e0786;
+// $color-mid-B: #7c4520;
+
+// NEW 3 bin colors
+$color-A: #a81a2d;
+$color-B: #184dc0;
+$color-mid: #0ebb34;
+
+// see doc_topics_old_weights.scss for old code
+
+text.center {
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+
+
+// model A
+#doctext .fo .A-10.B-0{
+    font-weight: bold;
+    color: $color-A;
+}
+// model B
+#doctext .fo .A-0.B-10{    
+    font-weight: bold;
+    color: $color-B;
+}
+// model A+B
+#doctext .fo .A-10.B-10{    
+    font-weight: bold;
+    color: $color-mid;
+}
+
+
+
+
+.heatmap .cell text{
+    pointer-events: none;
+}
+
+.heatmap .highlight {
+    pointer-events: all;
+    fill: none;
+    /* stroke: rgb(3, 75, 231) */
+    
+}
+
+.ontology.node rect {
+    fill: rgb(255, 218, 194);
+    stroke: rgb(100, 43, 8);
+}
+
+.ontology.node text {
+    fill: rgb(100, 43, 8);
+    // font-size: 14;
+    // font-weight: bold;
+}
+
+// this needs to be in here so that if you mouseout before the click animation ends, it will still follow through
+// NO IT DOESN'T. BUG STILL EXISTS.
+// .heatmap .highlight.clicked {
+//     /* stroke: rgb(44, 122, 238);; */
+//     opacity: 1;
+//     transition: 200ms;
+// }
+
+.notouch {
+  pointer-events: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
