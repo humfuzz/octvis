@@ -62,8 +62,9 @@ const FADE_IN_TIME = 200; // transition fade time in ms
 const FADE_OUT_TIME = 600;
 
 const TOPIC_SELECT_TRANSITION_TIME = 200;
-let FLAG_TOPIC_SELECT_FIXED = false; // if true, fix the topic select position
-const TOPIC_SELECT_FIXED = {
+let FLAG_TOPIC_SELECT_FIXED = false; // if true, fix the topic select position (when buddyplots on)
+let FLAG_TOPIC_SELECT_FIXED_PERMANENT = false; // if true, never move the topic select position
+let TOPIC_SELECT_FIXED = {
   "A" : {
     x : 500,
     y : 540
@@ -177,6 +178,37 @@ let data_kendall3 = {
   }
 };
 
+// fix the topic selector if there are 10 topics
+function ten_topic_preset() {
+  // console.log("loading ten topic preset");
+  // move topicselect to fixed position
+  FLAG_TOPIC_SELECT_FIXED = true;
+  FLAG_TOPIC_SELECT_FIXED_PERMANENT = true;
+
+  // new positions for 10 topics
+  TOPIC_SELECT_FIXED = {
+  "A" : {
+    x : 320,
+    y : 580
+  },
+  "B" : {
+    x : 1050,
+    y : 580
+  }};
+
+  // console.log(TOPIC_SELECT_FIXED);
+
+  ["A", "B"].forEach(model=> {
+    // console.log(TOPIC_SELECT_FIXED[model]);
+    
+    d3.select(".topicselect."+model)
+      .transition()
+        .duration(TOPIC_SELECT_TRANSITION_TIME)
+        .ease(d3.easeSin)
+        .attr("transform", translateString(TOPIC_SELECT_FIXED[model].x, TOPIC_SELECT_FIXED[model].y));
+  });
+}
+
 // topic_height = 25
 let data_kendall3_10 = {
   dir: "kendall3_10",
@@ -198,20 +230,8 @@ let data_kendall3_10 = {
     topicselect_heatmap_grid_size: 35,
     heatmap_doctopic_x_a: 70,
     document_text_y: 650,
-    on_load: ()=>{
-      // move topicselect to fixed position
-      FLAG_TOPIC_SELECT_FIXED = true;
-  
-      ["A", "B"].forEach(model=> {
-        d3.select(".topicselect."+model)
-          .transition()
-            .duration(TOPIC_SELECT_TRANSITION_TIME)
-            .ease(d3.easeSin)
-            .attr("transform", translateString(TOPIC_SELECT_FIXED[model].x, TOPIC_SELECT_FIXED[model].y));
-      });
-    },
+    on_load: ten_topic_preset,
   },
-
 };
 
 let data_cancer5 = {
@@ -250,18 +270,7 @@ let data_cancer10 = {
     topicselect_heatmap_grid_size: 35,
     heatmap_doctopic_x_a: 70,
     document_text_y: 650,
-    on_load: ()=>{
-      // move topicselect to fixed position
-      FLAG_TOPIC_SELECT_FIXED = true;
-  
-      ["A", "B"].forEach(model=> {
-        d3.select(".topicselect."+model)
-          .transition()
-            .duration(TOPIC_SELECT_TRANSITION_TIME)
-            .ease(d3.easeSin)
-            .attr("transform", translateString(TOPIC_SELECT_FIXED[model].x, TOPIC_SELECT_FIXED[model].y));
-      });
-    },
+    on_load: ten_topic_preset,
   },
 };
 
@@ -449,19 +458,24 @@ function drawControls() {
       });
 
     } else {
-      // move topicselect to dynamic position
-      FLAG_TOPIC_SELECT_FIXED = false;
 
-      const row = parseInt(selected_doc_name.slice(1), 10) - 1; // 0-indexed row from stored class name
-      const y = row * HEATMAP_DOCTOPIC_GRID_SIZE + HEATMAP_DOCTOPIC_Y;
+      if (!FLAG_TOPIC_SELECT_FIXED_PERMANENT) {
 
-      ["A", "B"].forEach(model=> {
-        d3.select(".topicselect."+model)
-          .transition()
-            .duration(TOPIC_SELECT_TRANSITION_TIME)
-            .ease(d3.easeSin)
-            .attr("transform", translateString(TOPIC_SELECT_DYNAMIC[model].x, y));
-      });
+        // move topicselect to dynamic position
+        FLAG_TOPIC_SELECT_FIXED = false;
+
+        const row = parseInt(selected_doc_name.slice(1), 10) - 1; // 0-indexed row from stored class name
+        const y = row * HEATMAP_DOCTOPIC_GRID_SIZE + HEATMAP_DOCTOPIC_Y;
+
+        ["A", "B"].forEach(model=> {
+          d3.select(".topicselect."+model)
+            .transition()
+              .duration(TOPIC_SELECT_TRANSITION_TIME)
+              .ease(d3.easeSin)
+              .attr("transform", translateString(TOPIC_SELECT_DYNAMIC[model].x, y));
+        });
+
+      }
 
     }
 
