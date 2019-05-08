@@ -11,11 +11,11 @@ const bg = svg.append("rect")
 .attr("height", "100%");
 
 let TOPIC_HEIGHT = 50; // gap between topics. TODO: set dynamically based on # of topics
-let GRAPH_Y = 50; // start of graph
 
 
 const MODEL_A_X = 710;
 const MODEL_B_X = 985;
+let GRAPH_Y = 50; // start of graph
 
 let TOPIC_SHIFT_Y = 0;
 
@@ -31,6 +31,7 @@ const TOPIC_TEXT_Y = GRAPH_Y - 42;
 
 let HEATMAP_DOCTOPIC_X_A = SVG_WIDTH/2 - 700 
 let HEATMAP_DOCTOPIC_X_B = SVG_WIDTH/2 + 600;
+// let HEATMAP_DOCTOPIC_X_B = SVG_WIDTH/2 + 670;
 let HEATMAP_DOCTOPIC_Y =  280;
 let HEATMAP_DOCTOPIC_GRID_SIZE = 20; // grid width in pixels
 let ALIGNMENT_HEATMAP_GRID_SIZE = 40; // grid width in pixels
@@ -95,11 +96,10 @@ const TOPIC_SELECT_DYNAMIC = {
   }
 }
 
-const buddy_x_min = 280;
-const buddy_B_x = 1400;
+// TODO: adjust per num_topics*heattopic width
+const buddy_x_min = 180;
+const buddy_B_x = 1480;
 const buddy_x_width = 180;
-const buddy_y_min = HEATMAP_DOCTOPIC_Y - HEATMAP_DOCTOPIC_GRID_SIZE/2;
-const buddy_y_gap = HEATMAP_DOCTOPIC_GRID_SIZE;
 
 const buddy_color_scale_AB = d3.scaleLinear()
 .range([COLOR_MODEL_WHITE, COLOR_MODEL_BLACK])
@@ -130,70 +130,64 @@ let data_sample = {
   }
 };
 
-let data_kendall1 = {
-  dir: "kendall1",
-  file_prefix: "k1",
-  model_a_name: "lda",
-  model_b_name: "nmf",
-  doc_start: 0,
-  doc_end: 31,
-  ontology_map: "umls_r.json",
-  ontology_names: "name_dict.json",
-  vis_parameters: {
-    topic_rescale: 1,
-    n_top_keywords: 10,
-  }
+// trying to refactor this... TODO fix 
 
-};
+// function topic_preset(a_x, a_y, b_x, b_y) {
+//   return function (a_x, a_y, b_x, b_y) {
+//   // console.log("loading ten topic preset");
+//   // move topicselect to fixed position
+//     FLAG_TOPIC_SELECT_FIXED = true;
+//     FLAG_TOPIC_SELECT_FIXED_PERMANENT = true;
 
-let data_kendall2 = {
-  dir: "kendall2",
-  file_prefix: "k2",
-  model_a_name: "lda",
-  model_b_name: "nmf",
-  doc_start: 32,
-  doc_end: 56,
-  ontology_map: "umls_r.json",
-  ontology_names: "name_dict.json",
-  vis_parameters: {
-    topic_rescale: 0.5,
-    n_top_keywords: 10,
-  }    
+//     // new positions for 10 topics
+//     // TOPIC_SELECT_FIXED = {
+//     // "A" : fixed_a,
+//     // "B" : fixed_b};
+//     TOPIC_SELECT_FIXED = {
+//     "A" : {
+//       x : a_x,
+//       y : a_y
+//     },
+//     "B" : {
+//       x : b_x,
+//       y : b_y
+//     }};
 
+//     // console.log(TOPIC_SELECT_FIXED);
 
-};
+//     ["A", "B"].forEach(model=> {
+//       // console.log(TOPIC_SELECT_FIXED[model]);
+      
+//       d3.select(".topicselect."+model)
+//         .transition()
+//           .duration(TOPIC_SELECT_TRANSITION_TIME)
+//           .ease(d3.easeSin)
+//           .attr("transform", translateString(TOPIC_SELECT_FIXED[model].x, TOPIC_SELECT_FIXED[model].y));
+//     });
+//   }
+// }
 
-let data_kendall3 = {
-  dir: "kendall3",
-  file_prefix: "k3",
-  model_a_name: "lda",
-  model_b_name: "nmf",
-  doc_start: 57,
-  doc_end: 90,
-  ontology_map: "umls_r.json",
-  ontology_names: "name_dict.json",
-  vis_parameters: {
-    topic_rescale: 1,
-    n_top_keywords: 30,
-  }
-};
+// const ten_topic_preset = topic_preset(320, 580, 1050, 580);
 
 // fix the topic selector if there are 10 topics
-function ten_topic_preset() {
+function ten_topic_preset(a_x=320, a_y=580, b_x=1050, b_y=580) {
   // console.log("loading ten topic preset");
   // move topicselect to fixed position
   FLAG_TOPIC_SELECT_FIXED = true;
   FLAG_TOPIC_SELECT_FIXED_PERMANENT = true;
 
   // new positions for 10 topics
+  // TOPIC_SELECT_FIXED = {
+  // "A" : fixed_a,
+  // "B" : fixed_b};
   TOPIC_SELECT_FIXED = {
   "A" : {
-    x : 320,
-    y : 580
+    x : a_x,
+    y : a_y
   },
   "B" : {
-    x : 1050,
-    y : 580
+    x : b_x,
+    y : b_y
   }};
 
   // console.log(TOPIC_SELECT_FIXED);
@@ -209,80 +203,107 @@ function ten_topic_preset() {
   });
 }
 
-// topic_height = 25
-let data_kendall3_10 = {
-  dir: "kendall3_10",
-  file_prefix: "k3",
-  model_a_name: "lda",
-  model_b_name: "nmf",
-  doc_start: 57,
-  doc_end: 90,
+function reddit_topic_preset(a_x=460, a_y=580, b_x=1000, b_y=580) {
+  // console.log("loading ten topic preset");
+  // move topicselect to fixed position
+  FLAG_TOPIC_SELECT_FIXED = true;
+  FLAG_TOPIC_SELECT_FIXED_PERMANENT = true;
+
+  // new positions for 10 topics
+  // TOPIC_SELECT_FIXED = {
+  // "A" : fixed_a,
+  // "B" : fixed_b};
+  TOPIC_SELECT_FIXED = {
+  "A" : {
+    x : a_x,
+    y : a_y
+  },
+  "B" : {
+    x : b_x,
+    y : b_y
+  }};
+
+  // console.log(TOPIC_SELECT_FIXED);
+
+  ["A", "B"].forEach(model=> {
+    // console.log(TOPIC_SELECT_FIXED[model]);
+    
+    d3.select(".topicselect."+model)
+      .transition()
+        .duration(TOPIC_SELECT_TRANSITION_TIME)
+        .ease(d3.easeSin)
+        .attr("transform", translateString(TOPIC_SELECT_FIXED[model].x, TOPIC_SELECT_FIXED[model].y));
+  });
+}
+
+
+let data_reddit6 = {
+  dir: "reddit6",
+  wordtopics_name: "word_topic_30_distr",
+  doctopics_name: "doc_topic_30_distr",
+  vocab_name: "vocab_reddit",
+  model_a_name: "lda6",
+  model_b_name: "nmf6",
+  texts_csv: "top30.csv",
   ontology_map: "umls_r.json",
   ontology_names: "name_dict.json",
-
   vis_parameters: {
+    redact_document_text: false,
+    n_top_keywords: 10,
+    rescale_B_max: 0.5,
+    
     graph_y: 40,
-    topic_rescale: 0.8,
-    topic_shift_y: 10,
-    n_top_keywords: 30,
-    topic_height: 25,
-    alignment_heatmap_grid_size: 25,
-    topicselect_heatmap_grid_size: 35,
-    heatmap_doctopic_x_a: 70,
-    document_text_y: 650,
-    on_load: ten_topic_preset,
-  },
-};
-
-let data_cancer5 = {
-  dir: "cancer5",
-  wordtopics_name: "word_topic_47_distr",
-  doctopics_name: "doc_topic_47_distr",
-  model_a_name: "lda5",
-  model_b_name: "nmf5",
-  texts_csv: "csn_47.csv",
-  ontology_map: "umls_r_csn.json",
-  ontology_names: "name_dict.json",
-  vis_parameters: {
     topic_rescale: 0.7,
-    n_top_keywords: 100,
-    rescale_B_max: 0.05,
+    topic_shift_y: 10,
+    topic_height: 40,
+    alignment_heatmap_grid_size: 40,
+    topicselect_heatmap_grid_size: 40,
+    heatmap_doctopic_x_a: 70,
+    heatmap_doctopic_x_b: 1520,
+    document_text_y: 650,
+
+    on_load: reddit_topic_preset,
+
   }
 };
 
-let data_cancer10 = {
-  dir: "cancer10",
-  wordtopics_name: "word_topic_47_distr",
-  doctopics_name: "doc_topic_47_distr",
-  model_a_name: "lda10",
-  model_b_name: "nmf10",
-  texts_csv: "csn_47.csv",
-  ontology_map: "umls_r_csn.json",
+
+let data_reddit_lda4_nmf6 = {
+  dir: "reddit6",
+  wordtopics_name: "word_topic_30_distr",
+  doctopics_name: "doc_topic_30_distr",
+  vocab_name: "vocab_reddit",
+  model_a_name: "lda4",
+  model_b_name: "nmf6",
+  texts_csv: "top30.csv",
+  ontology_map: "umls_r.json",
   ontology_names: "name_dict.json",
   vis_parameters: {
+    redact_document_text: false,
+    n_top_keywords: 10,
+    rescale_B_max: 0.5,
+    
     graph_y: 40,
-    topic_rescale: 0.4,
+    topic_rescale: 0.7,
     topic_shift_y: 10,
-    n_top_keywords: 300,
-    rescale_B_max: 0.05,
-    topic_height: 25,
-    alignment_heatmap_grid_size: 25,
-    topicselect_heatmap_grid_size: 35,
+    topic_height: 40,
+    alignment_heatmap_grid_size: 40,
+    topicselect_heatmap_grid_size: 40,
+    heatmap_doctopic_grid_size: 23,
     heatmap_doctopic_x_a: 70,
+    heatmap_doctopic_x_b: 1500,
     document_text_y: 650,
-    on_load: ten_topic_preset,
-  },
+
+    on_load: reddit_topic_preset,
+
+  }
 };
 
 // globalize metadata so that we can have separate pages to load each
 datasets = {
   sample: data_sample,
-  k1: data_kendall1,
-  k2: data_kendall2,
-  k3: data_kendall3,
-  k3_10: data_kendall3_10,
-  c5: data_cancer5,
-  c10: data_cancer10,
+  r6: data_reddit6,
+  r46: data_reddit_lda4_nmf6,
 };
 
 async function main(metadata) {
@@ -323,8 +344,16 @@ async function main(metadata) {
     TOPICSELECT_HEATMAP_GRID_SIZE = data.vis_parameters.topicselect_heatmap_grid_size;
   }
 
+  if (typeof data.vis_parameters.heatmap_doctopic_grid_size !== 'undefined') {
+    HEATMAP_DOCTOPIC_GRID_SIZE = data.vis_parameters.heatmap_doctopic_grid_size;
+  }
+
   if (typeof data.vis_parameters.heatmap_doctopic_x_a !== 'undefined') {
     HEATMAP_DOCTOPIC_X_A = data.vis_parameters.heatmap_doctopic_x_a;
+  }
+  
+  if (typeof data.vis_parameters.heatmap_doctopic_x_b !== 'undefined') {
+    HEATMAP_DOCTOPIC_X_B = data.vis_parameters.heatmap_doctopic_x_b;
   }
   
   if (typeof data.vis_parameters.document_text_y !== 'undefined') {
@@ -566,7 +595,8 @@ function drawTopicHints(num_topics_a, num_topics_b) {
   // const hints_y1 = 140+250;
 
   const hints_A_w = MODEL_A_X - HEATMAP_DOCTOPIC_X_A + 30;
-  const hints_B_w = 515;
+  const hints_B_w = HEATMAP_DOCTOPIC_X_B - hints_B_x0 + 22;
+  // const hints_B_w = 515;
   const hints_h = 250;
 
   const hints_dx = HEATMAP_DOCTOPIC_GRID_SIZE;
@@ -1241,6 +1271,10 @@ function selectDocTopicRow(row) {
 // buddy plots
 
 function drawBuddyPlots(docs_A, docs_B, x_min, width, color_scale) {
+
+  
+  const buddy_y_min = HEATMAP_DOCTOPIC_Y - HEATMAP_DOCTOPIC_GRID_SIZE/2;
+  const buddy_y_gap = HEATMAP_DOCTOPIC_GRID_SIZE;
 
   const BUDDY_STROKE_WIDTH = 4;
 

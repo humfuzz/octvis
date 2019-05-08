@@ -9,7 +9,7 @@ async function init_data(metadata) {
 
   const PREFIX = (typeof metadata.file_prefix !== 'undefined')? metadata.file_prefix + "_" : "";
   
-  const VOCAB_FILENAME = "vocab";
+  const VOCAB_FILENAME = (typeof metadata.vocab_name !== 'undefined')? metadata.vocab_name : "vocab";
   const WORDTOPICS_FILENAME = (typeof metadata.wordtopics_name !== 'undefined')? metadata.wordtopics_name : "word_topic_distr";
   const DOCTOPICS_FILENAME = (typeof metadata.doctopics_name !== 'undefined')? metadata.doctopics_name : "doc_topic_distr";
 
@@ -215,7 +215,7 @@ async function init_data(metadata) {
   'QLCO', 'PROS', 'PROG', 'OCDI', 'OCAC', 'LANG', 'INPR',
   'INBE', 'IDCN', 'HUMN', 'GRUP', 'GRPA', 'GORA', 'GEOA',
   'FTCN', 'EEHU', 'EDAC', 'CNCE', 'CLAS', 'BHVR', 'ACTY',
-  'MNOB', 'MENP']
+  'MNOB', 'MENP', 'FNDG']
 
   Object.keys(ontology_map).forEach(concept=>{
     let onto_row = {
