@@ -3,6 +3,9 @@
 **Ontology-based Comparison of Topics Visualization**
 
 ---
+demo: \url{http://www.cs.ubc.ca/cs-research/lci/research-groups/natural-language-processing/octvis/
+
+---
 
 To build, compile [Sass](https://sass-lang.com/) (if you made changes) to CSS and then run a local web server (HTML/JS) however you like. 
 
