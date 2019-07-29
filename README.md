@@ -3,7 +3,7 @@
 **Ontology-based Comparison of Topics Visualization**
 
 ---
-demo: \url{http://www.cs.ubc.ca/cs-research/lci/research-groups/natural-language-processing/octvis/
+demo: http://www.cs.ubc.ca/cs-research/lci/research-groups/natural-language-processing/octvis/
 
 ---
 
